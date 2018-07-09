@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzy.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="tutor" jdbcType="VARCHAR" property="tutor" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+  </resultMap>
+  <resultMap id="TeacherMap" type="Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="tnumber" jdbcType="INTEGER" property="tnumber" />
+  </resultMap>
+  
+  <resultMap id="UserMap" type="User" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="snumber" property="snumber" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="userType" property="userType" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 学生 -->
+  <select id="findTotalCount" resultType="java.lang.Integer">
+  select  count(*)
+  from student
+  </select>
+  
+  <select id="findStudentList" resultMap="BaseResultMap" >
+  select  *
+  from student
+  order by id desc
+  limit #{0},#{1}
+  </select>
+  
+  <insert id="addStu" parameterType="com.hzy.pojo.Student">
+  insert into student(snumber,name,sex,college,email,tutor,phone)
+  values(#{snumber},#{name},#{sex},#{college},#{email},#{tutor},#{phone})
+  </insert>
+  
+  
+  <!-- 教师 -->
+  <select id="findTotalCountT" resultType="java.lang.Integer">
+  select  count(*)
+  from teacher
+  </select>
+   
+  <select id="findTeacherList" resultMap="TeacherMap" >
+  select  *
+  from teacher
+  order by id desc
+  limit #{0},#{1}
+  </select>
+  
+  <insert id="addTea" parameterType="com.hzy.pojo.Teacher">
+  insert into teacher(tnumber,name,sex,college,email,phone)
+  values(#{tnumber},#{name},#{sex},#{college},#{email},#{phone})
+  </insert>
+  
+  
+  <!-- 用户 -->
+  <select id="findTotalCountU" resultType="java.lang.Integer">
+  select  count(*)
+  from user
+  </select>
+   
+  <select id="findUserList" resultMap="UserMap" >
+  select  *
+  from user
+  order by id desc
+  limit #{0},#{1}
+  </select>
+  
+  <insert id="addUser" parameterType="com.hzy.pojo.User">
+  insert into user(snumber,username,password,userType)
+  values(#{snumber},#{username},#{password},#{userType})
+  </insert>
+  
+  <delete id="deleteUser" parameterType="java.lang.Integer">
+  delete from user
+  where snumber=#{snumber}
+  </delete>
+  
+  <delete id="deleteS" parameterType="java.lang.Integer">
+  delete from student
+  where snumber=#{snumber}
+  </delete>
+  
+  <delete id="deleteT" parameterType="java.lang.Integer">
+  delete from teacher
+  where tnumber=#{tnumber}
+  </delete>
+ </mapper>

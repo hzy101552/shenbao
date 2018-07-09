@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzy.dao.TeacherMapper">
+  <resultMap id="TeacherMap" type="Teacher">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="tnumber" jdbcType="INTEGER" property="tnumber" />
+  </resultMap>
+  
+  <resultMap id="ProjectMap" type="Project">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="project_name" />
+    <result column="project_category" jdbcType="VARCHAR" property="project_category" />
+    <result column="student_name" jdbcType="VARCHAR" property="student_name" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="funds" jdbcType="VARCHAR" property="funds" />
+    <result column="team" jdbcType="VARCHAR" property="team" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="research_contents" jdbcType="VARCHAR" property="research_contents" />
+    <result column="plan" jdbcType="VARCHAR" property="plan" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="t_Name" jdbcType="VARCHAR" property="t_Name" />
+    <result column="evaluat" jdbcType="VARCHAR" property="evaluat" />
+  </resultMap>
+  
+  <select id="findTeacher" parameterType="java.lang.Integer" resultMap="TeacherMap">
+  select *
+  from teacher
+  where tnumber=#{id}
+  </select>
+  
+  <select id="findmyProjects" parameterType="String" resultMap="ProjectMap">
+  select *
+  from project
+  where t_Name=#{tName}
+  </select>
+  
+  <update id="updateTeacherinfo" parameterType="com.hzy.pojo.Teacher"> 
+  update teacher set tnumber=#{tnumber},name=#{name},sex=#{sex},college=#{college},phone=#{phone},email=#{email}
+	 	where tnumber=#{tnumber}
+  </update>
+ </mapper>

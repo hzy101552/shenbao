@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzy.dao.StudentMapper">
+  <resultMap id="BaseResultMap" type="Student">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="tutor" jdbcType="VARCHAR" property="tutor" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+  </resultMap>
+  <resultMap id="ProjectMap" type="Project">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_name" jdbcType="VARCHAR" property="project_name" />
+    <result column="project_category" jdbcType="VARCHAR" property="project_category" />
+    <result column="student_name" jdbcType="VARCHAR" property="student_name" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="createtime" jdbcType="VARCHAR" property="createtime" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="funds" jdbcType="VARCHAR" property="funds" />
+    <result column="team" jdbcType="VARCHAR" property="team" />
+    <result column="introduction" jdbcType="VARCHAR" property="introduction" />
+    <result column="research_contents" jdbcType="VARCHAR" property="research_contents" />
+    <result column="plan" jdbcType="VARCHAR" property="plan" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="t_Name" jdbcType="VARCHAR" property="t_Name" />
+    <result column="evaluat" jdbcType="VARCHAR" property="evaluat" />
+  </resultMap>
+  <resultMap id="FilesMap" type="Files">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fileName" jdbcType="VARCHAR" property="fileName" />
+    <result column="sName" jdbcType="VARCHAR" property="sName" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+  </resultMap>
+  
+  <select id="selectByExample" parameterType="com.hzy.pojo.Student" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    from student
+  </select>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from student
+    where snumber = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countByExample" parameterType="com.hzy.pojo.Student" resultType="java.lang.Integer">
+    select count(*) from student
+  </select>
+  
+  <update id="updateStudentinfo" parameterType="com.hzy.pojo.Student"> 
+  update student set snumber=#{snumber},name=#{name},sex=#{sex},college=#{college},tutor=#{tutor},phone=#{phone},email=#{email}
+	 	where snumber=#{snumber}
+  </update>
+  
+  <insert id="addProjectinfo" parameterType="com.hzy.pojo.Project">
+  insert into project(project_name,project_category,snumber,student_name,t_Name,createtime,result,funds,team,status,introduction,research_contents,plan,college)
+  values(#{project_name},#{project_category},#{snumber},#{student_name},#{t_Name},#{createtime},#{result},#{funds},#{team},#{status},#{introduction},#{research_contents},#{plan},#{college})
+  </insert>
+  
+  <select id="findProject" resultMap="ProjectMap">
+  select  project_name,project_category,student_name,college,t_Name
+  from project
+  </select>
+  
+  <select id="findmyProjects" parameterType="java.lang.Integer" resultMap="ProjectMap">
+  select  project_name,project_category,student_name,college,t_Name
+  from project
+  where snumber = #{id}
+  </select>
+  
+  <select id="findTotalCount" resultType="java.lang.Integer">
+  select  count(*)
+  from project
+  </select>
+  
+  <select id="findProductList" resultMap="ProjectMap" >
+  select  id,project_name,project_category,student_name,college,t_Name
+  from project
+  order by id desc
+  limit ${pagenu},${pagesize}
+  </select>
+  
+  <select id="findProjectXiang" parameterType="String" resultMap="ProjectMap">
+  select  *
+  from project
+  where project_name=#{project_name}
+  </select>
+  
+  <select id="findFiles" resultMap="FilesMap">
+  select *
+  from file
+  </select>
+  
+  <insert id="insertFile" parameterType="com.hzy.pojo.Files">
+  insert into file(fileName,sName,snumber)
+  values(#{fileName},#{sName},#{snumber})
+  </insert>
+</mapper>
